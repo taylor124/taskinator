@@ -13,8 +13,37 @@ var taskFormHandler = function(event) {
     type: taskTypeInput
   };
 
+  if (!taskNameInput || !taskTypeInput) {
+  alert("You need to fill out the task form!");
+  return false;
+}
+
+if (true) {
+  // this will run because true is true
+    console.log("Is true true? Yes.");
+  }
+  
+  if (false) {
+  // this will not run because false is not true
+    console.log("Is false true? No.");
+  }
+  
+  if (3 === 10 || "a" === "a") {
+  // this will run because at least one of the conditions is true
+    console.log("Does 3 equal 10? No.");
+    console.log("Does the letter 'a' equal the letter 'a'? Yes.");
+  }
+  
+  if (3 === 10 && "a" === "a") {
+  // this will not run because both conditions have to be true to run
+    console.log("Does 3 equal 10? No.");
+    console.log("Does the letter 'a' equal the letter 'a'? Yes.");
+  }
+  formEl.reset();
   // send it as an argument to createTaskEl
   createTaskEl(taskDataObj);
+  // check if input values are empty strings
+
   };
 
   var createTaskEl = function(taskDataObj) {
