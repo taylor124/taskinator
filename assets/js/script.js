@@ -1,3 +1,5 @@
+
+
 var tasksInProgressEl = document.querySelector("#tasks-in-progress");
 
 var tasksCompletedEl = document.querySelector("#tasks-completed");
@@ -291,11 +293,22 @@ if (taskListEl) {
 
 var saveTasks = function() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
-};
+}
 
 var loadTasks = function() {
- tasks = localStorage("tasks", JSON.parse(tasks));
-};
+  var savedTasks = localStorage.getItem("tasks");
+
+  if (!savedTasks) {
+    return false;
+  }
+
+  savedTasks = JSON.parse(savedTasks);
+  // loop through savedTasks array
+for (var i = 0; i < savedTasks.length; i++) {
+  // pass each task object into the `createTaskEl()` function
+  createTaskEl(savedTasks[i]);
+}
+}
 
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
 pageContentEl.addEventListener("click", taskButtonHandler);
@@ -304,26 +317,6 @@ pageContentEl.addEventListener("dragover", dropZoneDragHandler);
 pageContentEl.addEventListener("drop", dropTaskHandler);
 pageContentEl.addEventListener("dragleave", dragLeaveHandler);
 
+console.log(localStorage);
 
-var createTaskEl = function(taskDataObj) {
-  // create list item
-  var listItemEl = document.createElement("li");
-  listItemEl.className = "task-item";
-  listItemEl.setAttribute("draggable", "true");
-  listItemEl.setAttribute("data-task-id", taskIdCounter)
 
-  // create div to hold task info and add to list item
-  var taskInfoEl = document.createElement("div");
-  taskInfoEl.className = "task-info";
-  taskInfoEl.innerHTML = "<h3 class='task-name'>" + taskDataObj.name + "</h3><span class='task-type'>" + taskDataObj.type + "</span>";
-  listItemEl.appendChild(taskInfoEl);
-  taskDataObj.id = taskIdCounter;
-
-  tasks.push(taskDataObj);
-  var taskActionsEl = createTaskActions(taskIdCounter);
-  listItemEl.appendChild(taskActionsEl);
-
-  tasksToDoEl.appendChild(listItemEl);
-  taskIdCounter++;
-  saveTasks()
-};
